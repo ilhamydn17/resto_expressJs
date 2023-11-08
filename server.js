@@ -36,7 +36,7 @@ app.post('/login', async (req, res) => {
   
   // find user by username and password
   const user = await User.findOne({ username })
-  
+
   if (user) {
     req.session.user = user
     res.redirect('/reservation-form')
