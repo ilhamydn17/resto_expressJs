@@ -3,13 +3,15 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const app = express()
 const path = require('path');
+const reser_route = require('./routes/crud-reservation')
 require('./utils/db')
 const User = require('./model/users')
+const Reservation = require('./model/reservations')
 
+app.use(reser_route)
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs')
 app.set("views", path.join(__dirname, "/views"));
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
@@ -21,7 +23,7 @@ app.use(session({
 // Execution Route
 app.get('/', (req, res) => {
   // Memanggil halaman index yang ada pada folder views
-  res.render('index') 
+  res.render('index', { user: req.session.user }) 
 })
 
 // Route to login page
@@ -35,7 +37,7 @@ app.post('/login', async (req, res) => {
   const { username, password } = req.body
   
   // find user by username and password
-  const user = await User.findOne({ username })
+  const user = await User.findOne({ username, password })
 
   if (user) {
     req.session.user = user
@@ -65,6 +67,12 @@ app.get('/reservation-form', (req, res) => {
     res.redirect('/login'); // Redirect to login if the user is not authenticated
   }
 })
+
+app.get('/reservation-list', async (req, res) => {
+  const reservations = await Reservation.find()
+  res.render('reservation-list', { reservations })
+})
+
 
 app.listen(port=3000, () => {
   console.log(`Example app listening at http://localhost:${port}`)
