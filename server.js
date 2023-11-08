@@ -1,14 +1,24 @@
 // Preparation for Stuff
 const express = require('express')
+const session = require('express-session');
+const bodyParser = require('body-parser');
 const app = express()
 const path = require('path');
+require('./utils/db')
 const User = require('./model/users')
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs')
 app.set("views", path.join(__dirname, "/views"));
 
-
+// Use body parsing middleware to parse JSON and URL-encoded data
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(session({
+  secret: 'your-secret-key',
+  resave: true,
+  saveUninitialized: false,
+}));
 
 // Execution 
 app.get('/', (req, res) => {
@@ -16,14 +26,43 @@ app.get('/', (req, res) => {
   res.render('index') 
 })
 
-app.get('/', (req, res) => {
+app.get('/login', (req, res) => {
   // Memanggil halaman index yang ada pada folder views
   res.render('login') 
 })
 
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body
+  
+  // find user by username and password
+  const user = await User.findOne({ username })
+  
+  if (user) {
+    req.session.user = user
+    res.redirect('/reservation-form')
+  } else {
+    res.redirect('/login')
+  }
+})
+
+// Logout route
+app.get('/logout', (req, res) => {
+  // Clear the user's session
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+    }
+    // Redirect to the login page or any other appropriate page
+    res.redirect('/login');
+  });
+});
+
 app.get('/reservation-form', (req, res) => {
-  // Memanggil halaman index yang ada pada folder views
-  res.render('reservation') 
+  if (req.session.user) {
+    res.render('reservation');
+  } else {
+    res.redirect('/login'); // Redirect to login if the user is not authenticated
+  }
 })
 
 app.listen(port=3000, () => {

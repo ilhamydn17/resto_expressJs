@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 mongoose.connect('mongodb://127.0.0.1:27017/resto_express', {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
 })
 
 
