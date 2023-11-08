@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 
-// create schema
+// create schema (like table)
 const User = mongoose.model('users', {
     name: String,
     email: String,
-    nohp: Number
+    phone: Number
 })
 
 module.exports = User

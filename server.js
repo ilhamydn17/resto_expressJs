@@ -2,7 +2,7 @@
 const express = require('express')
 const app = express()
 const path = require('path');
-const expressLayouts =
+const User = require('./model/users')
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs')
@@ -16,9 +16,14 @@ app.get('/', (req, res) => {
   res.render('index') 
 })
 
-app.get('/login', (req, res) => {
+app.get('/', (req, res) => {
   // Memanggil halaman index yang ada pada folder views
   res.render('login') 
+})
+
+app.get('/reservation-form', (req, res) => {
+  // Memanggil halaman index yang ada pada folder views
+  res.render('reservation') 
 })
 
 app.listen(port=3000, () => {
