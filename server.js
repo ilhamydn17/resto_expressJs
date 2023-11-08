@@ -1,4 +1,3 @@
-// Preparation for Stuff
 const express = require('express')
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -11,7 +10,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs')
 app.set("views", path.join(__dirname, "/views"));
 
-// Use body parsing middleware to parse JSON and URL-encoded data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
@@ -20,17 +18,19 @@ app.use(session({
   saveUninitialized: false,
 }));
 
-// Execution 
+// Execution Route
 app.get('/', (req, res) => {
   // Memanggil halaman index yang ada pada folder views
   res.render('index') 
 })
 
+// Route to login page
 app.get('/login', (req, res) => {
   // Memanggil halaman index yang ada pada folder views
   res.render('login') 
 })
 
+// Route to login process
 app.post('/login', async (req, res) => {
   const { username, password } = req.body
   
@@ -45,7 +45,7 @@ app.post('/login', async (req, res) => {
   }
 })
 
-// Logout route
+// Route to logout / delete session
 app.get('/logout', (req, res) => {
   // Clear the user's session
   req.session.destroy((err) => {
@@ -57,6 +57,7 @@ app.get('/logout', (req, res) => {
   });
 });
 
+// Route to redirect to reservation page
 app.get('/reservation-form', (req, res) => {
   if (req.session.user) {
     res.render('reservation');
