@@ -38,19 +38,25 @@
 
 <body>  
     <div class="container mt-5">
-        <h1 class="mb-4 text-center">Reservation List</h1>
+        <div class="row">
+          <div class="col-sm">
+            <h1 class="mb-4">Reservation List</h1>
+          </div>
+        </div>
         <div class="row">
             <% reservations.forEach(reservation => { %>
                 <div class="col-md-4 mb-4">
                     <div class="card shadow">
                       <div class="card-body">
                         <h5 class="card-title"><%= reservation.name_order %></h5>
-                        <h5 class="card-title"><%= reservation.id %></h5>
                         <p class="card-text"><strong>Date:</strong> <%= reservation.date_order %></p>
                         <p class="card-text"><strong>Table Type:</strong> <%= reservation.table_type %></p>
                         <p class="card-text"><strong>Person Count:</strong> <%= reservation.person_count %></p>
                         <p class="card-text"><strong>Addition Message:</strong> <%= reservation.addition_message %></p>
-                        <a class="btn btn-danger" style="font-size: 14px" href="/reservations/<%= reservation._id %>/delete">Batalkan</a>
+                        <form method="POST" action="/reservation?_method=DELETE">
+                          <input type="hidden" name="name" value="<%= reservation.name_order %>">
+                          <button type="submit" class="btn btn-warning" onclick="return confirm('Anda yakin?')" style="font-size:14px">Batalkan</button>
+                        </form>
                       </div>
                     </div>
                 </div>

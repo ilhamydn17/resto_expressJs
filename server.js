@@ -69,8 +69,12 @@ app.get('/reservation-form', (req, res) => {
 })
 
 app.get('/reservation-list', async (req, res) => {
-  const reservations = await Reservation.find()
-  res.render('reservation-list', { reservations })
+  if (req.session.user) {
+    const reservations = await Reservation.find()
+    res.render('reservation-list', { reservations })
+  }else{
+    res.redirect('/login');
+  }
 })
 
 

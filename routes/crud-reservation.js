@@ -1,5 +1,6 @@
 const express = require('express')
 const reser_route = express()
+var methodOverride = require('method-override')
 const bodyParser = require('body-parser'); 
 const Reservation = require('../model/reservations')
 
@@ -8,6 +9,7 @@ require('../utils/db')
 
 reser_route.use(bodyParser.json());
 reser_route.use(bodyParser.urlencoded({ extended: false }));
+reser_route.use(methodOverride('_method'));
 
 
 reser_route.post('/reservation/store', async (req, res) => {
@@ -23,13 +25,14 @@ reser_route.post('/reservation/store', async (req, res) => {
 })
 
 // Delete a reservation by ID
-reser_route.delete('/reservations/:id/delete', async (req, res) => {
-    try {
-       await Reservation.findByIdAndRemove(req.params.id);
-        res.render('index')
-    } catch (error) {
+reser_route.delete('/reservation', (req, res) => {
+  Reservation.deleteOne({ name_order: req.body.name })
+    .then((result) => {
+      res.redirect('reservation-list')
+    })
+    .catch((err) => {
       res.status(500).json({ error: 'Failed to delete reservation' });
-    }
-  });  
+    });
+});
 
 module.exports = reser_route
