@@ -7,6 +7,7 @@ const reser_route = require('./routes/crud-reservation')
 require('./utils/db')
 const User = require('./model/users')
 const Reservation = require('./model/reservations')
+const Menu = require('./model/menus')
 
 app.use(reser_route)
 app.use(express.static(path.join(__dirname, 'public')));
@@ -24,6 +25,11 @@ app.use(session({
 app.get('/', (req, res) => {
   // Memanggil halaman index yang ada pada folder views
   res.render('index', { user: req.session.user }) 
+})
+
+app.get('/tes', (req, res) => {
+  // Memanggil halaman index yang ada pada folder views
+  res.render('menu-list') 
 })
 
 // Route to login page
@@ -77,6 +83,26 @@ app.get('/reservation-list', async (req, res) => {
   }
 })
 
+app.get('/foods-list', (req, res) => {
+  const menus = Menu.find({ type: 'food' })
+    .then((menus) => {
+     res.render('menu-list', { menus, type: 'Foods' })
+    })
+})
+
+app.get('/beverages-list', (req, res) => {
+  const menus = Menu.find({ type: 'beverage' })
+    .then((menus) => {
+      res.render('menu-list', { menus, type: 'Beverages' })
+    })
+})
+
+app.get('/desserts-list', (req, res) => {
+  const menus = Menu.find({ type: 'dessert' })
+    .then((menus) => {
+      res.render('menu-list', { menus, type: 'Desserts' })
+    })
+})
 
 app.listen(port=3000, () => {
   console.log(`Example app listening at http://localhost:${port}`)
