@@ -6,7 +6,6 @@ const Reservation = require('../model/reservations')
 
 require('../utils/db')
 
-
 reser_route.use(bodyParser.json());
 reser_route.use(bodyParser.urlencoded({ extended: false }));
 reser_route.use(methodOverride('_method'));
