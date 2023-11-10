@@ -1,5 +1,7 @@
 // Mengimpor library mongoose untuk berinteraksi dengan database MongoDB
 const mongoose = require('mongoose')
+// Mengimpor file utilitas 'db'
+require('../utils/db')
 
 // Membuat model 'User' dengan menggunakan mongoose.model
 // Model 'User' akan merepresentasikan koleksi 'users' di database
