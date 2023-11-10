@@ -1,17 +1,10 @@
+// Mengimpor library mongoose yang digunakan untuk terhubung dengan MongoDB dan berinteraksi dengan database
 const mongoose = require('mongoose')
+
+// Menggunakan opsi { useNewUrlParser: true, useUnifiedTopology: true } untuk mengatasi pesan peringatan dan memastikan koneksi yang stabil
+// Menghubungkan aplikasi dengan database MongoDB yang berjalan di localhost pada port 27017
+// Menggunakan URL koneksi 'mongodb://127.0.0.1:27017/resto_express'
 mongoose.connect('mongodb://127.0.0.1:27017/resto_express', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
-
-
-
-// // insert 1 data
-// const user1 = new User({
-//     name: "Fulan Tampan",
-//     email: "fulan@example.com",
-//     nohp: "0812898967676"
-// })
-
-// // save to collection
-// user1.save().then((user)=> console.log(user))
