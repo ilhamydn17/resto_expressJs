@@ -2,11 +2,8 @@ const express = require('express')
 const globalRoute = express()
 const path = require('path');
 const session = require('express-session');
-// Mengimpor modul 'users' dari direktori './model' 
-const User = require('../model/users') 
-// Mengimpor modul 'reservations' dari direktori './model'
+const User = require('../model/users')
 const Reservation = require('../model/reservations') 
-// Mengimpor modul 'menus' dari direktori './model'
 const Menu = require('../model/menus') 
 
 require('../utils/db') 
