@@ -1,4 +1,5 @@
 # Prepare to use
+**Pastikan telah menginstall node Js dan npm**.
 ### Step 1 
 Pastikan telah menginstall mongoDB di perangkat yang anda gunakan, kemudian pastikan untuk mengaktifkan terlebih dahulu mongoDB anda.
 ### Step 2 
